@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-navbar>
+    <button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{ action }} Item</ion-title>
+    <ion-buttons end *ngIf="!isNew">
+      <button ion-button (click)="delete()">
+        <ion-icon name="trash"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label>Name</ion-label>
+    <ion-input text-right type="text" [(ngModel)]="selectedItem.title"></ion-input>
+  </ion-item>
+  <h4 text-center *ngIf="navParams.get('item')">
+    You navigated here from <b>{{selectedItem.title}}</b>
+  </h4>
+  <button ion-button block (click)="save()">Save</button>
+</ion-content>

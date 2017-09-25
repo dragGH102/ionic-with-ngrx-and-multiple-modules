@@ -1,0 +1,9 @@
+page-item-details {
+  $fontSize: 20px;
+  $color: #f00;
+
+  h4 > b {
+    font-size: $fontSize;
+    color: $color;
+  }
+}
