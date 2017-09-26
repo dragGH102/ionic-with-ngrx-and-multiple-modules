@@ -18,10 +18,10 @@ export class MyApp {
   pages: Array<{title: string, component: any}>;
 
   constructor(
-    public platform: Platform,
-    public menu: MenuController,
-    public statusBar: StatusBar,
-    public splashScreen: SplashScreen
+    public _platform: Platform,
+    public _menu: MenuController,
+    public _statusBar: StatusBar,
+    public _splashScreen: SplashScreen
   ) {
     this.initializeApp();
 
@@ -32,17 +32,17 @@ export class MyApp {
   }
 
   initializeApp() {
-    this.platform.ready().then(() => {
+    this._platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
+      this._statusBar.styleDefault();
+      this._splashScreen.hide();
     });
   }
 
   openPage(page) {
     // close the menu when clicking a link from the menu
-    this.menu.close();
+    this._menu.close();
     // navigate to the new page if it is not the current page
     this.nav.setRoot(page.component);
   }

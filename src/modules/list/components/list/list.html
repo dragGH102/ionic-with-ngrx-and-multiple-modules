@@ -15,7 +15,7 @@
 <ion-content>
   <ion-list>
     <!-- pipe output of Observables: need to use 'async' pipe -->
-    <button ion-item *ngFor="let item of $items | async" (click)="showDetail($event, item)">
+    <button ion-item *ngFor="let item of items$ | async" (click)="showDetail($event, item)">
       <ion-icon name="{{item.icon}}" item-left></ion-icon>
       {{item.title}}
       <div class="item-note" item-right>

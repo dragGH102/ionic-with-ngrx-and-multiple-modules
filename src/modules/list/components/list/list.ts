@@ -4,10 +4,10 @@ import { Observable } from 'rxjs';
 
 import { NavController } from 'ionic-angular';
 
-import Item from '../../../../models/item';
+import { Item } from '../../models/item';
 import { ItemDetailsPage } from '../../../../pages/item-details/item-details';
-import { selectListItems } from "../../../../store/list/selectors";
-import { AppState } from "../../../../store/app.reducer";
+import { selectListItems } from "../../store/list/selectors";
+import { AppState } from "../../../../shared/store/app.reducer";
 
 @Component({
   selector: 'list',
@@ -16,14 +16,14 @@ import { AppState } from "../../../../store/app.reducer";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListComponent {
-  $items: Observable<Item[]>;
+  items$: Observable<Item[]>;
 
   constructor(
     private _navCtrl: NavController,
     private _store: Store<AppState>
   ) {
     // $ for Observables
-    this.$items = this._store.select(selectListItems);
+    this.items$ = this._store.select(selectListItems);
   }
 
   showDetail(event, item) {

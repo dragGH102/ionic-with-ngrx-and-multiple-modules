@@ -1,5 +1,5 @@
 import { ActionReducerMap } from "@ngrx/store";
-import { ListInitialState, ListReducer, ListState } from "./list/reducer";
+import { ListInitialState, ListReducer, ListState } from "../../modules/list/store/list/reducer";
 
 export interface AppState {
   list: ListState

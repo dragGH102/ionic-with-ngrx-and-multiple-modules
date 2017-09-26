@@ -9,7 +9,7 @@ import { ItemDetailsPage } from '../pages/item-details/item-details';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StoreModule } from "@ngrx/store";
-import { APP_REDUCERS, appInitalState } from "../store/app.reducer";
+import { APP_REDUCERS, appInitalState } from "../shared/store/app.reducer";
 import { ListModule } from "../modules/list/list.module";
 import { ListPage } from "../pages/list/list";
 

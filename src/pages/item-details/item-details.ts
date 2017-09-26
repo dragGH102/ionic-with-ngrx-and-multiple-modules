@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { Store } from '@ngrx/store';
-import { AppState } from "../../store/app.reducer";
-import { AddItem, UpdateItem, RemoveItem } from "../../store/list/actions";
-import makeItem from "../../factories/item";
+import { AppState } from "../../shared/store/app.reducer";
+import { AddItem, DeleteItem, UpdateItem } from "../../modules/list/store/list/actions";
+import makeItem from "../../modules/list/factories/item";
 
 @Component({
   selector: 'page-item-details',
@@ -15,12 +15,12 @@ export class ItemDetailsPage {
   public action = 'Add';
 
   constructor(
-    public navParams: NavParams,
+    public _navParams: NavParams,
     private _navCtrl: NavController,
     private _store: Store<AppState>,
   ) {
     // If we navigated to this page, we will have an item available as a nav param
-    const selectedItem = navParams.get('item');
+    const selectedItem = _navParams.get('item');
 
     if (selectedItem) {
       this.selectedItem = selectedItem;
@@ -44,7 +44,7 @@ export class ItemDetailsPage {
   }
 
   delete() {
-    this._store.dispatch(new RemoveItem(this.selectedItem));
+    this._store.dispatch(new DeleteItem(this.selectedItem));
     this._navCtrl.pop();
   }
 }
