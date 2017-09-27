@@ -3,7 +3,7 @@ import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { ListService } from '../../list.service';
 import {
-  ADD_ITEM, ADD_UPDATE_ITEM_SUCCESS, DELETE_ITEM, DELETE_ITEM_SUCCESS, UPDATE_ITEM,
+  ADD_ITEM, ADD_UPDATE_ITEM_SUCCESS, DELETE_ITEM, UPDATE_ITEM,
   DeleteItem, AddItem, UpdateItem, LoadItemsSuccess,
 } from "./actions";
 import { DeleteItemSuccess } from "./actions";
@@ -20,22 +20,24 @@ export class ListEffects {
 
   @Effect() addItem$ = this._actions$
     .ofType(ADD_ITEM)
-    .map<AddItem, object>(action => action.payload)
+    .map<AddItem, {item: Item}>(action => action.payload)
      // Maps each value (Item) to a (potentially different) Observable
-    .mergeMap<Item, Item>(item => {
-      this._listService.add(item);
-      // Item => Observable<Item>
-      return Observable.of(item);
+    // Item => Observable<Item>
+    // NOTE: mergeMap VS switchMap: "complete" previous Observable - i.e. maintain only the latest subscription of eventual multiple Observable flows
+    .mergeMap<any, Observable<Item>>(payload => {
+      console.log('MERGE_MAP', payload);
+      // Observable<Item>
+      return Observable.fromPromise(this._listService.add(payload.item))
     })
-    // switchMap => use a different Observable
-    .switchMap(item =>
-      // add item completed -> dispatch success action
-      Observable.of(new AddUpdateItemSuccess({
+    // dispatch "success" action (actions$ Observable is kept by ngrx/effects !)
+    .map<any, AddUpdateItemSuccess>(item => {
+      console.log('MAP', item);
+      return new AddUpdateItemSuccess({
         item,
-      }))
-    );
+      })
+    });
 
-  @Effect() updateItem$ = this._actions$
+/*  @Effect() updateItem$ = this._actions$
     .ofType(UPDATE_ITEM)
     .map<UpdateItem, object>(action => action.payload)
     .mergeMap<Item, void>(item => this._listService.update(item))
@@ -48,26 +50,14 @@ export class ListEffects {
     .ofType(DELETE_ITEM)
     .map<DeleteItem, object>(action => action.payload)
     .mergeMap<Item, void>(item => this._listService.delete(item))
-    .switchMap(() =>
+    .switchMap(item =>
       // delete item completed -> dispatch success action
-      Observable.of({type: DELETE_ITEM_SUCCESS})
-    );
+      Observable.of(new DeleteItemSuccess({
+        item,
+      }))
+    );*/
 
-  // observable used by the effect above
-  // initialized as Effects are initialized (no action / effect expected here)
-  allItems$ = this._listService.getAll()
+  // dispatched in any case as no action filter (ofType) is defined
+  @Effect() allItems$ = this._listService.getAll()
     .map(items => new LoadItemsSuccess(items));
-
-  changedItems$ = this._listService.getChanges()
-    .map(change => {
-      if (change._deleted) {
-        return new DeleteItemSuccess(change._id);
-      }
-      else {
-        return new AddUpdateItemSuccess(change);
-      }
-    });
-
-  // dispatched in any case and updating the getItems$ observable on the above Observables' changes => merge items in store
-  @Effect() getItems$ = Observable.concat(this.allItems$, this.changedItems$);
 }

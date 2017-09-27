@@ -20,7 +20,7 @@ export function ListReducer(state: ListState = ListInitialState, action: ListAct
         items: [ ...state.items, action.payload ]
       });
     case ADD_UPDATE_ITEM_SUCCESS:
-      console.log(state, action.payload);
+      console.log('ADD_UPDATE_ITEM_SUCCESS', state, action.payload);
       const exists = state.items.find(item => item._id === action.payload.item._id);
 
       if (exists) {

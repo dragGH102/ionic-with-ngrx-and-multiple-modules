@@ -14,12 +14,14 @@ export class ListService {
   initDB() : Promise<any> {
     return this._platform.ready()
       .then(() => {
+        // new PouchDB('list', { adapter: 'websql' }).destroy(); // TODO: remove
         this._db = new PouchDB('list', { adapter: 'websql' });
       });
   }
 
   add(item: Item) : Promise<any> {
-    return this._db.post(item);
+    return this._db.post(item)
+      .then(response => this._db.get(response.id));
   }
 
   update(item: Item) : Promise<any> {
