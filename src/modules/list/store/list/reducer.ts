@@ -17,7 +17,7 @@ export function ListReducer(state: ListState = ListInitialState, action: ListAct
   switch(action.type) {
     case LOAD_ITEMS_SUCCESS:
       return Object.assign({}, state, {
-        items: [ ...state.items, action.payload ]
+        items: action.payload.items,
       });
     case ADD_UPDATE_ITEM_SUCCESS:
       console.log('ADD_UPDATE_ITEM_SUCCESS', state, action.payload);
@@ -38,8 +38,9 @@ export function ListReducer(state: ListState = ListInitialState, action: ListAct
         });
       }
     case DELETE_ITEM_SUCCESS:
+      // record returned as "id" rather than "_id"!
       return Object.assign({}, state, {
-        items: state.items.filter(item => item._id !== action.payload.item._id)
+        items: state.items.filter(item => item._id !== action.payload.item.id)
       });
     default:
       return state;

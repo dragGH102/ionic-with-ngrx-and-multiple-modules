@@ -45,7 +45,9 @@ export class ItemDetailsPage {
   }
 
   delete() {
-    this._store.dispatch(new DeleteItem(this.selectedItem));
+    this._store.dispatch(new DeleteItem({
+      item: this.selectedItem,
+    }));
     this._navCtrl.pop();
   }
 }

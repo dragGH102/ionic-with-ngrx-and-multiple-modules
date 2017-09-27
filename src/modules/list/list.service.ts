@@ -5,6 +5,11 @@ import { Item } from './models/item';
 
 import PouchDB from 'pouchdb';
 
+// provides upsert() to update with retry in case of conflicts + updating revs
+// retry === check for error in callback and error = 409 (conflict) => then retry
+import PouchDBUpsert from 'pouchdb-upsert';
+PouchDB.plugin(PouchDBUpsert);
+
 @Injectable()
 export class ListService {
   private _db;
@@ -24,14 +29,20 @@ export class ListService {
       .then(response => this._db.get(response.id));
   }
 
+  // uses ID previously generated @ add()
   update(item: Item) : Promise<any> {
-    // uses ID previously generated
-    return this._db.put(item);
+    return this._db.upsert(item._id, (doc) => item)
+      .then(response => {
+          // TODO: should do proper error handling here @ .catch()
+          return response;
+      });
   }
 
+  // uses ID previously generated @ add()
   delete(item: Item) : Promise<any> {
-    // uses ID previously generated
-    return this._db.remove(item);
+    return this._db.get(item._id)
+      // once the db document's been fetched...
+      .then(doc => this._db.remove(doc));
   }
 
   getAll() : Observable<any> {
@@ -41,7 +52,7 @@ export class ListService {
           return this._db.allDocs({ include_docs: true });
         })
         .then(docs => {
-
+          console.log(docs);
           // Each row has a .doc object and we just want to send an
           // array of item objects back to the calling code,
           // so let's map the array to contain just the .doc objects.
@@ -52,7 +63,7 @@ export class ListService {
         }));
   }
 
-  getChanges(): Observable<any> {
+/*  getChanges(): Observable<any> {
     return Observable.create(observer => {
 
       // Listen for changes on the database.
@@ -61,5 +72,5 @@ export class ListService {
           observer.next(change.doc);
         });
     });
-  }
+  }*/
 }

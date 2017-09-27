@@ -38,18 +38,18 @@ export class ListEffects {
       item,
     }));
 
-  /*  @Effect() deleteItem$ = this._actions$
-      .ofType(DELETE_ITEM)
-      .map<DeleteItem, object>(action => action.payload)
-      .mergeMap<Item, void>(item => this._listService.delete(item))
-      .switchMap(item =>
-        // delete item completed -> dispatch success action
-        Observable.of(new DeleteItemSuccess({
-          item,
-        }))
-      );*/
+   @Effect() deleteItem$ = this._actions$
+    .ofType(DELETE_ITEM)
+    .map<DeleteItem, {item: Item}>(action => action.payload)
+    .mergeMap<{item: Item}, Observable<Item>>(payload => Observable.fromPromise(this._listService.delete(payload.item)))
+    .map<any, DeleteItemSuccess>(item => new DeleteItemSuccess({
+       item,
+    }));
 
   // dispatched in any case as no action filter (ofType) is defined
+  // -> all it does is dispatching a new action to return the loaded items
+  // which are then put in store
+  // Runs only once ... since getAll() converts the Observable to a Promise
   @Effect() allItems$ = this._listService.getAll()
-    .map(items => new LoadItemsSuccess(items));
+    .map(items => new LoadItemsSuccess({ items }));
 }
