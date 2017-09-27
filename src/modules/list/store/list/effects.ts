@@ -24,38 +24,30 @@ export class ListEffects {
      // Maps each value (Item) to a (potentially different) Observable
     // Item => Observable<Item>
     // NOTE: mergeMap VS switchMap: "complete" previous Observable - i.e. maintain only the latest subscription of eventual multiple Observable flows
-    .mergeMap<any, Observable<Item>>(payload => {
-      console.log('MERGE_MAP', payload);
-      // Observable<Item>
-      return Observable.fromPromise(this._listService.add(payload.item))
-    })
+    .mergeMap<{item: Item}, Observable<Item>>(payload => Observable.fromPromise(this._listService.add(payload.item)))
     // dispatch "success" action (actions$ Observable is kept by ngrx/effects !)
-    .map<any, AddUpdateItemSuccess>(item => {
-      console.log('MAP', item);
-      return new AddUpdateItemSuccess({
+    .map<any, AddUpdateItemSuccess>(item => new AddUpdateItemSuccess({
         item,
-      })
-    });
+     }));
 
-/*  @Effect() updateItem$ = this._actions$
+  @Effect() updateItem$ = this._actions$
     .ofType(UPDATE_ITEM)
-    .map<UpdateItem, object>(action => action.payload)
-    .mergeMap<Item, void>(item => this._listService.update(item))
-    .switchMap(() =>
-      // update item completed -> dispatch success action
-      Observable.of({type: ADD_UPDATE_ITEM_SUCCESS})
-    );;
+    .map<UpdateItem, {item: Item}>(action => action.payload)
+    .mergeMap<{item: Item}, Observable<Item>>(payload => Observable.fromPromise(this._listService.update(payload.item)))
+    .map<any, AddUpdateItemSuccess>(item => new AddUpdateItemSuccess({
+      item,
+    }));
 
-  @Effect() deleteItem$ = this._actions$
-    .ofType(DELETE_ITEM)
-    .map<DeleteItem, object>(action => action.payload)
-    .mergeMap<Item, void>(item => this._listService.delete(item))
-    .switchMap(item =>
-      // delete item completed -> dispatch success action
-      Observable.of(new DeleteItemSuccess({
-        item,
-      }))
-    );*/
+  /*  @Effect() deleteItem$ = this._actions$
+      .ofType(DELETE_ITEM)
+      .map<DeleteItem, object>(action => action.payload)
+      .mergeMap<Item, void>(item => this._listService.delete(item))
+      .switchMap(item =>
+        // delete item completed -> dispatch success action
+        Observable.of(new DeleteItemSuccess({
+          item,
+        }))
+      );*/
 
   // dispatched in any case as no action filter (ofType) is defined
   @Effect() allItems$ = this._listService.getAll()

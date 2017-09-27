@@ -39,7 +39,7 @@ export function ListReducer(state: ListState = ListInitialState, action: ListAct
       }
     case DELETE_ITEM_SUCCESS:
       return Object.assign({}, state, {
-        items: state.items.filter(item => item._id !== action.payload.itemId)
+        items: state.items.filter(item => item._id !== action.payload.item._id)
       });
     default:
       return state;

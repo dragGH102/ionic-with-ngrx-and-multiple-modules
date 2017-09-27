@@ -27,6 +27,7 @@ export class ListComponent {
   }
 
   showDetail(event, item) {
+    console.log('SHOW DETAILS', item);
     this._navCtrl.push(ItemDetailsPage, {
       item: item
     });

@@ -25,10 +25,12 @@ export class ListService {
   }
 
   update(item: Item) : Promise<any> {
+    // uses ID previously generated
     return this._db.put(item);
   }
 
   delete(item: Item) : Promise<any> {
+    // uses ID previously generated
     return this._db.remove(item);
   }
 

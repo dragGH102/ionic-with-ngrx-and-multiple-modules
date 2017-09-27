@@ -19,13 +19,13 @@ export class AddItem implements Action {
 export class DeleteItem implements Action {
   readonly type = DELETE_ITEM;
 
-  constructor(public payload: {itemId: string}) { }
+  constructor(public payload: {item: Item}) { }
 }
 
 export class UpdateItem implements Action {
   readonly type = UPDATE_ITEM;
 
-  constructor(public payload: {itemId: string}) { }
+  constructor(public payload: {item: Item}) { }
 }
 
 export class LoadItemsSuccess implements Action {
@@ -43,7 +43,7 @@ export class AddUpdateItemSuccess implements Action {
 export class DeleteItemSuccess implements Action {
   readonly type = DELETE_ITEM_SUCCESS;
 
-  constructor(public payload: {itemId: string}) { }
+  constructor(public payload: {item: Item}) { }
 }
 
 /**

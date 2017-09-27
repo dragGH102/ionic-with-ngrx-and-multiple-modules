@@ -21,6 +21,7 @@ export class ItemDetailsPage {
   ) {
     // If we navigated to this page, we will have an item available as a nav param
     const selectedItem = _navParams.get('item');
+    console.log('selectedItem', selectedItem);
 
     if (selectedItem) {
       this.selectedItem = selectedItem;
@@ -37,7 +38,7 @@ export class ItemDetailsPage {
     }
     else {
       this._store.dispatch(new UpdateItem({
-        itemId: this.selectedItem.id
+        item: this.selectedItem
       }));
     }
     this._navCtrl.pop();
