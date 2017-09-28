@@ -15,7 +15,7 @@
 <ion-content>
   <ion-item>po
     <ion-label>Name</ion-label>
-    <ion-input text-right type="text" [(ngModel)]="selectedItem.title" autofocus></ion-input>
+    <ion-input text-right type="text" [(ngModel)]="selectedItem.title" #newItemInput></ion-input>
   </ion-item>
   <h4 text-center *ngIf="_navParams.get('item')">
     You're editing ... <b>{{selectedItem.title}}</b>
