@@ -23,3 +23,24 @@ See for example http://blog.ionic.io/ionic-and-lazy-loading-pt-2/
 ### NAMING
 
 Angular 2+ convention `.component/service/ etc.` is not used here. Rather the files are in specific folders
+
+### CLASS PROPERTIES
+
+Source: https://stackoverflow.com/questions/37506343/private-and-public-in-angular-2-component
+
+use `private` when ... 
+- you want to prevent children from accessing the component (i.e. not always necessary)
+
+and
+
+- the property is used ONLY from within the component (not the template)
+
+use `public` (default value) for **all** properties used in **template** 
+
+### TESTING
+
+an example is included.
+
+The Angular docs provide excellent use cases examples: https://angular.io/guide/testing
+
+More on Jasmine is provided by the likewise Jasmine docs: https://jasmine.github.io/2.0/introduction.html

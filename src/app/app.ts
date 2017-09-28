@@ -18,10 +18,11 @@ export class MyApp {
   pages: Array<{title: string, component: any}>;
 
   constructor(
-    public _platform: Platform,
-    public _menu: MenuController,
-    public _statusBar: StatusBar,
-    public _splashScreen: SplashScreen
+    private _platform: Platform,
+    private _menu: MenuController,
+    private _statusBar: StatusBar,
+    private _splashScreen: SplashScreen,
+
   ) {
     this.initializeApp();
 
