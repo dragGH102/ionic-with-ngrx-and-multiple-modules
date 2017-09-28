@@ -18,4 +18,8 @@ For non-page components it makes sense too having a module per component to leve
 
 We can also group **component modules** by **feature** (less optimized - i.e. we load more stuff - but easier to mantain)
 
-See for example http://blog.ionic.io/ionic-and-lazy-loading-pt-2/ 
+See for example http://blog.ionic.io/ionic-and-lazy-loading-pt-2/
+
+### NAMING
+
+Angular 2+ convention `.component/service/ etc.` is not used here. Rather the files are in specific folders

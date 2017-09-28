@@ -1,6 +1,7 @@
 var webpack = require('webpack');
 var path = require('path');
 
+// we have the webpack.test.js file to tell Webpack what to bundle for testing
 module.exports = {
   devtool: 'inline-source-map',
 
