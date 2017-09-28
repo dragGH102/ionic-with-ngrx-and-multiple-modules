@@ -11,7 +11,7 @@ import { ListEffects } from "./store/list/effects";
   imports: [
     CommonModule,
     // IonicPageModule.forChild(ListComponent)
-    IonicPageModule.forChild(ListComponent),
+    IonicPageModule.forChild(ListComponent), // lazy loading
     EffectsModule.forRoot([
       ListEffects,
     ])
