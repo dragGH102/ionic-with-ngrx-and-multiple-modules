@@ -2,16 +2,16 @@ import {
   ListAction,
   LOAD_ITEMS_SUCCESS, ADD_UPDATE_ITEM_SUCCESS, DELETE_ITEM_SUCCESS,
 } from './actions';
-
 import { Item } from "../../models/item";
 
 export interface ListState {
   items: Array<Item>
 }
 
-export const ListInitialState = {
+export const ListInitialState: ListState = {
   items: []
 };
+
 
 export function ListReducer(state: ListState = ListInitialState, action: ListAction): ListState {
   switch(action.type) {

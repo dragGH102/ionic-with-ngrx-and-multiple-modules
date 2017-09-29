@@ -9,7 +9,6 @@ import { ItemDetailsPage } from '../../../../pages/item-details/item-details';
 import { selectListItems } from "../../store/list/selectors";
 import { AppState } from "../../../../shared/store/app.reducer";
 
-@IonicPage()
 @Component({
   selector: 'list',
   templateUrl: 'list.html',
