@@ -44,3 +44,7 @@ an example is included.
 The Angular docs provide excellent use cases examples: https://angular.io/guide/testing
 
 More on Jasmine is provided by the likewise Jasmine docs: https://jasmine.github.io/2.0/introduction.html
+
+### STORE
+
+There is a root store (AppModule) and a feature store (ListModule) with multiple reducers support (one per component)
