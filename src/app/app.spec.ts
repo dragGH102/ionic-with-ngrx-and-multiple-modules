@@ -4,8 +4,12 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { MyApp } from './app';
-import { DebugElement } from "@angular/core";
+import { DebugElement, NO_ERRORS_SCHEMA } from "@angular/core";
 import { By } from "@angular/platform-browser";
+import { ListPage } from "../pages/list/list";
+import { BrowserDynamicTestingModule } from "@angular/platform-browser-dynamic/testing";
+import { ItemDetailsPage } from "../pages/item-details/item-details";
+import { ListComponent } from "../modules/list/components/list/list";
 
 describe('MyApp Component', () => {
   let comp:    MyApp;
@@ -19,9 +23,17 @@ describe('MyApp Component', () => {
     const mockedService = {};
 
     TestBed.configureTestingModule({
-      declarations: [MyApp],
+      declarations: [
+        MyApp,
+        //ItemDetailsPage,
+        ListPage,
+      ],
       imports: [
         IonicModule.forRoot(MyApp)
+      ],
+      schemas: [
+        // suppress missing components, for the sake of testing
+        NO_ERRORS_SCHEMA,
       ],
       providers: [
         StatusBar,
@@ -35,8 +47,19 @@ describe('MyApp Component', () => {
         // e.g. {provide: <actual service>, useValue: mockedService }
         // and then get the service via INJECTOR in test body ...
         // e.g. userService = fixture.debugElement.injector.get(UserService);
-      ]
-    })
+      ],
+    });
+
+    // add entryComponents to the dynamic moduled returned by Testbed
+    TestBed.overrideModule(BrowserDynamicTestingModule, {
+      set: {
+        entryComponents: [
+          MyApp,
+          ListPage,
+          //ItemDetailsPage,
+        ]
+      }
+    });
   }));
 
   // The second beforeEach sets up fixtures
@@ -50,7 +73,7 @@ describe('MyApp Component', () => {
   });
 
   // with 'xit' the test is skipped ...
-  xit ('should have two pages', () => {
+  it ('should have two pages', () => {
     expect(comp.pages.length).toBe(1);
   });
 

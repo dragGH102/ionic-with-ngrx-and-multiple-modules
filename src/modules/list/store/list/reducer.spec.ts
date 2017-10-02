@@ -1,45 +1,28 @@
-import { async, TestBed, inject } from '@angular/core/testing';
-import { ListReducer } from "./reducer";
-import { StoreModule } from "@ngrx/store";
-import {Store} from "@ngrx/store";
+import { ListInitialState, ListReducer } from "./reducer";
+import { AddItem, LoadItemsSuccess } from "./actions";
+import makeItem from "../../factories/item";
+import Faker from 'faker';
 
-import { APP_REDUCERS, appInitalState } from "../shared/store/app.reducer";
+const generateItem = (title) => new AddItem({ item: makeItem(title)}).payload.item;
 
-describe('Reducer', () => {
+// isolated testing
+describe('ListReducer', () => {
+  describe('LOAD_ITEMS_SUCCESS', () => {
+    it('should return just loaded items', () => {
+      const state = ListInitialState;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [],
-      imports: [StoreModule.forFeature({
-        list: ListReducer
-      }, {
-        initialState: appInitalState,
-      })]
-    })
-      .compileComponents();
-  }));
+      const items = [];
+      for (let i = 0; i < 10; i++) {
+        items.push(generateItem(Faker.random.word))
+      }
 
-  it('should have the intial counter be 10', inject([Store], (store:Store<State>) => {
-    expect(store).toBeTruthy();
+      const expected = state;
+      state.items = items;
 
-    let data = store.select('mainReducer')
-      .subscribe((data:State)=> {
-        expect(data.counter).toEqual(10);
+      const action = new LoadItemsSuccess({ items });
 
-      });
-
-  }));
-
-  it('should have the counter be 11 after handling the INCREMENT action', inject([Store], (store:Store<State>) => {
-    expect(store).toBeTruthy();
-
-    store.dispatch({ type: "INCREMENT", payload: {innerObj: {text: "derp!"}} });
-
-    let data = store.select('mainReducer')
-      .subscribe((data:State)=> {
-        expect(data.counter).toEqual(11);
-
-      });
-
-  }));
+      const result = ListReducer(state, action);
+      expect(result).toEqual(expected);
+    });
+  });
 });
