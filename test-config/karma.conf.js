@@ -10,7 +10,7 @@ module.exports = function (config) {
       'karma-chrome-launcher',
       'karma-spec-reporter',
       'karma-sourcemap-loader',
-      'karma-jasmine',
+      'karma-jasmine'
     ],
     files: [
       {pattern: './karma-test-shim.js', watched: true}
@@ -41,7 +41,7 @@ module.exports = function (config) {
       suppressPassed: true,      // do not print information about passed tests
       suppressSkipped: false,      // do not print information about skipped tests
       showSpecTiming: false,      // print the time elapsed for each spec
-      failFast: true              // test would finish with error when a first fail occurs.
+      // failFast: true              // test would finish with error when a first fail occurs.
     },
     /*
      * Run Karma in headless mode

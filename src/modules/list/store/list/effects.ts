@@ -20,15 +20,24 @@ export class ListEffects {
 
   @Effect() addItem$ = this._actions$
     .ofType(ADD_ITEM)
-    .map<AddItem, {item: Item}>(action => action.payload)
+    .map<AddItem, {item: Item}>(action => {
+      console.log('1. map', action);
+      return action.payload
+    })
      // Maps each value (Item) to a (potentially different) Observable
     // Item => Observable<Item>
     // NOTE: mergeMap VS switchMap: "complete" previous Observable - i.e. maintain only the latest subscription of eventual multiple Observable flows
-    .mergeMap<{item: Item}, Observable<Item>>(payload => Observable.fromPromise(this._listService.add(payload.item)))
+    .mergeMap<{item: Item}, Observable<Item>>(payload => {
+      console.log('2. mergeMap', payload);
+      return Observable.fromPromise(this._listService.add(payload.item))
+    })
     // dispatch "success" action (actions$ Observable is kept by ngrx/effects !)
-    .map<any, AddUpdateItemSuccess>(item => new AddUpdateItemSuccess({
+    .map<any, AddUpdateItemSuccess>(item => {
+      console.log('3. map', item);
+      return new AddUpdateItemSuccess({
         item,
-     }));
+      })
+    });
 
   @Effect() updateItem$ = this._actions$
     .ofType(UPDATE_ITEM)
