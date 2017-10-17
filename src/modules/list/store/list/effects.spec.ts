@@ -7,6 +7,7 @@ import { AddItem, AddUpdateItemSuccess } from './actions';
 import makeItem from '../../factories/item';
 import Faker from 'faker';
 import { ListService } from '../../list.service';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 /*
  * COLD vs HOT observables
@@ -33,7 +34,7 @@ class ListServiceMock {
 
 describe('ListEffects', () => {
   let effects: ListEffects;
-  let actions: Observable<any>;
+  let actions: /*Observable<any> | */ReplaySubject<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -50,12 +51,23 @@ describe('ListEffects', () => {
   describe('addItem$', () => {
     it('should return LoadItemsSuccess action for each item', async() => {
       const item = makeItem(Faker.random.word);
-      actions = hot('--a-', { a: new AddItem({ item })});
+      actions = new ReplaySubject(1) // = Observable + Observer, 1 = buffer size
 
-      const expected = cold('--b', { b: new AddUpdateItemSuccess({ item }) });
+      actions.next(new AddItem({ item }));
+
+      effects.addItem$.subscribe(result => {
+        expect(result).toEqual(new AddUpdateItemSuccess({ item }));
+      });
+
+      // hot/cold examples - not working
+      /*actions = hot('--a-', { a: new AddItem({ item })});
+
+      const expected = hot('--b', { b: new AddUpdateItemSuccess({ item }) });
+      console.log('result', effects.addItem$, '/////', Object.keys(effects.addItem$));
+      console.log('expected', expected, '/////', Object.keys(expected));
       // effects.addItem$.subscribe(value => console.log('addItems$ new value ', value))
       // comparing marbles
-      expect(effects.addItem$).toBeObservable(expected);
+      expect(effects.addItem$).toBeObservable(expected);*/
     });
   })
 });
