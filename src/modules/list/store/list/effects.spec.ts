@@ -3,7 +3,6 @@ import { ListEffects } from './effects';
 import { Observable } from 'rxjs/Observable';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { AddItem, AddUpdateItemSuccess } from './actions';
 import makeItem from '../../factories/item';
 import Faker from 'faker';
@@ -49,7 +48,6 @@ describe('ListEffects', () => {
   });
 
   describe('addItem$', () => {
-   // TODO: complete + write an example using ReplaySubject instead (see  https://github.com/ngrx/platform/blob/master/docs/effects/testing.md )
     it('should return LoadItemsSuccess action for each item', async() => {
       const item = makeItem(Faker.random.word);
       actions = hot('--a-', { a: new AddItem({ item })});
