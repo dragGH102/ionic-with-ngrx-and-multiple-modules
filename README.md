@@ -39,7 +39,7 @@ use `public` (default value) for **all** properties used in **template**
 
 ### TESTING
 
-An example is included. Run all tests by `npm test`
+An example ( **reducer** + **effects** ) is included. Run all tests by `npm run test`
 
 The Angular docs provide excellent use cases examples: https://angular.io/guide/testing
 
