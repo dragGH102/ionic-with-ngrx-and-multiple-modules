@@ -30,6 +30,7 @@ Source: https://stackoverflow.com/questions/37506343/private-and-public-in-angul
 
 use `private` when ... 
 - you want to prevent children from accessing the component (i.e. not always necessary)
+- injecting a service into a component (otherwise will result as undefined)
 
 and
 
